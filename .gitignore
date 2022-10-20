@@ -1,0 +1,7 @@
+__pycache__
+
+env/
+media/
+
+admin
+db.sqlite3
