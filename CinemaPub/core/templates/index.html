@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+<div id="addPostModal" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Добавить пост</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="$('#addPostModal').modal('toggle')"></button>
+        </div>
+        <div class="modal-body">
+            <img id="dvd-thumb" src="{% static 'images/dvd-thumb.png'%}" class="card-img-top" alt="..." width="100" exp="old">
+            <label id="upload-label" for="upload_file" class="custom-file-upload upload-btn upload-btn-primary">Загрузить логотип</label>
+            <input class="margin" type="file" formnovalidate id="upload_file" name="file" accept=".jpg,.png, .webp">
+            <div class="input-group mb-3 title">
+                <input id="input-title" type="text" class="form-control" placeholder="Название" aria-label="Название" aria-describedby="basic-addon1">
+            </div>
+            <div class="input-group">
+                <textarea id="input-description" class="form-control" placeholder="Описание" aria-label="Описание"></textarea>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="$('#addPostModal').modal('toggle')">Закрыть</button>
+          <button type="button" class="btn btn-primary" onclick="addPost()">Сохранить</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div id="moreDescriptionModal" class="modal" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="$('#moreDescriptionModal').modal('toggle')"></button>
+        </div>
+        <div class="modal-body">
+          <p></p>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div id="editPost" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Modal title</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Modal body text goes here.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="album py-2 my-custom-scrollbar">
+    <div class="table-scroll-y">
+        <div id="posts-div" class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
+            {% for post in posts %}
+            <div class="c">
+                <div class="card mb-3">
+                    <img src="{{post.image.url}}" class="card-img-top post-img" alt="..." width="200">
+                    <div class="card-body">
+                    <h5 class="card-title">{{post.title}}</h5>
+                    <p id="postDescription" class="card-text">
+                        <button class="more-description-button" type="button" onclick="moreDescription('{{post.pk}}')"><i class="bi bi-info-circle"></i></button>
+                        {{post.description}}
+                    </p>
+                    <div class="container">
+                        <div class="row">
+                        <div class="col">
+                            <p id="dateCreated" class="card-text"><small class="text-muted">{{post.created}}</small></p>
+                        </div>
+                        {% if user.is_superuser %}
+                        <div class="col">
+                            <div class="col post-action-col">
+                              <button class="edit-button" type="button"><i class="bi bi-pencil"></i></button>
+                              <button class="delete-button" type="button" onclick="deletePost('{{post.pk}}')"><i class="bi bi-trash3"></i></button>
+                            </div>
+                        </div>
+                        {% endif %}
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
