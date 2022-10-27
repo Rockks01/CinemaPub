@@ -7,6 +7,6 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
-    command: python CinemaPub/manage.py runserver 0.0.0.0:5000
+    command: python CinemaPub/manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/app
