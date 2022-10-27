@@ -1,0 +1,13 @@
+version: '3.9'
+
+services:
+  cinemapub:
+    image: cinemapub
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    working_dir: CinemaPub
+    command: python manage.py runserver 0.0.0.0:5000
+    volumes:
+      - .:/app
